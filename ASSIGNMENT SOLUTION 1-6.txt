@@ -1,0 +1,754 @@
+Microsoft Windows [Version 10.0.22631.3296]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Rahul>mqsql -u root -p
+'mqsql' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Rahul>mysql --version
+mysql  Ver 8.0.36 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+C:\Users\Rahul>mqsql -u root -p
+'mqsql' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Rahul>mysql -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.36 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| khargar            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> use khargar;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| khargar            |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use khargar;
+Database changed
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into orders values(3001,18.69,'1990-10-03',2008,1007);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders values(3001,18.69,'1990-10-03',2008,1007),
+    -> (3001,18.69,'1990-10-03',2008,1007),
+    -> (3001,18.69,'1990-10-03',2008,1007),
+    -> (3001,18.69,'1990-10-03',2008,1007),
+    -> (3001,18.69,'1990-10-03',2008,1007),
+    -> (3001,18.69,'1990-10-03',2008,1007);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from orders;
++------+-------+------------+------+------+
+| Onum | Amt   | Odate      | Cnum | Snum |
++------+-------+------------+------+------+
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
++------+-------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> drop table orders;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc orders;
+ERROR 1146 (42S02): Table 'khargar.orders' doesn't exist
+mysql> create table orders (Onum int(4),Amt float(7,2), Odate date, Cnum int(4), Snum int(4));
+Query OK, 0 rows affected, 4 warnings (0.04 sec)
+
+mysql> desc orders;
++-------+------------+------+-----+---------+-------+
+| Field | Type       | Null | Key | Default | Extra |
++-------+------------+------+-----+---------+-------+
+| Onum  | int        | YES  |     | NULL    |       |
+| Amt   | float(7,2) | YES  |     | NULL    |       |
+| Odate | date       | YES  |     | NULL    |       |
+| Cnum  | int        | YES  |     | NULL    |       |
+| Snum  | int        | YES  |     | NULL    |       |
++-------+------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into orders values(3001,18.69,'1990-10-03',2008,1007),(300
+3,767.19,'1990-10-03',2001,1001),(3002,1900.10,'1990-10-03',2007,1004),(
+3005,5160.45,'1990-10-03',2003,1002),(3006,1098.16,'1990-10-03',2008,100
+7),(3009,1713.23,'1990-10-04',2002,1003),(3007,75.75,'1990-10-03',2004,1
+002),(3008,4723.00,'1990-10-05',2006,1001),(3010,1309.95,'1990-10-06',20
+04,1002),(3011,9891.88,'1990-10-06',2006,1001);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * table orders;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table orders' at line 1
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+#ASSIGNMENT-04. 
+
+mysql> desc customers;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Cnum   | int         | YES  |     | NULL    |       |
+| Cname  | varchar(10) | YES  |     | NULL    |       |
+| City   | varchar(10) | YES  |     | NULL    |       |
+| Rating | int         | YES  |     | NULL    |       |
+| Snum   | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from orders values(Onum, Amt, Odate);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(Onum, Amt, Odate)' at line 1
+mysql> select Onum, Amt, Odate from orders;
++------+---------+------------+
+| Onum | Amt     | Odate      |
++------+---------+------------+
+| 3001 |   18.69 | 1990-10-03 |
+| 3003 |  767.19 | 1990-10-03 |
+| 3002 | 1900.10 | 1990-10-03 |
+| 3005 | 5160.45 | 1990-10-03 |
+| 3006 | 1098.16 | 1990-10-03 |
+| 3009 | 1713.23 | 1990-10-04 |
+| 3007 |   75.75 | 1990-10-03 |
+| 3008 | 4723.00 | 1990-10-05 |
+| 3010 | 1309.95 | 1990-10-06 |
+| 3011 | 9891.88 | 1990-10-06 |
++------+---------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from salesperson;
+ERROR 1146 (42S02): Table 'khargar.salesperson' doesn't exist
+mysql> select * from salespersons;
+ERROR 1146 (42S02): Table 'khargar.salespersons' doesn't exist
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from salespeople where Snum=1001;
++------+-------+--------+------+
+| Snum | Sname | City   | Comm |
++------+-------+--------+------+
+| 1001 | Peel  | London | 0.12 |
++------+-------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> select City,Sname, Snum, Comm from salespeople;
++-----------+---------+------+------+
+| City      | Sname   | Snum | Comm |
++-----------+---------+------+------+
+| London    | Peel    | 1001 | 0.12 |
+| San Jose  | Serres  | 1002 | 0.13 |
+| London    | Motika  | 1004 | 0.11 |
+| Barcelona | Rifkin  | 1007 | 0.15 |
+| New York  | Axelrod | 1003 | 0.10 |
++-----------+---------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers where city='San Jose';
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select rating , name from customers where city='San Jose';
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select Rating , Cname from customers where city='San Jose';
++--------+----------+
+| Rating | Cname    |
++--------+----------+
+|    200 | Liu      |
+|    300 | Cisneros |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select distinct Snum from salespeople;
++------+
+| Snum |
++------+
+| 1001 |
+| 1002 |
+| 1004 |
+| 1007 |
+| 1003 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> select Snum from orders;
++------+
+| Snum |
++------+
+| 1007 |
+| 1001 |
+| 1004 |
+| 1002 |
+| 1007 |
+| 1003 |
+| 1002 |
+| 1001 |
+| 1002 |
+| 1001 |
++------+
+10 rows in set (0.00 sec)
+
+mysql> show Snum of all salespeople with order in orders table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Snum of all salespeople with order in orders table' at line 1
+mysql> show Snum of all salespeople with orders in orders table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Snum of all salespeople with orders in orders table' at line 1
+mysql> select distinct Snum,Onum from salespeople order by Snum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'field list'
+mysql> select distinct Snum,Snum from salespeople order by Snum;
++------+------+
+| Snum | Snum |
++------+------+
+| 1001 | 1001 |
+| 1002 | 1002 |
+| 1003 | 1003 |
+| 1004 | 1004 |
+| 1007 | 1007 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct Snum,Snum from salespeople order by Onum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'order clause'
+mysql> select distinct Snum,Onum from salespeople,orders order by Snum;
+ERROR 1052 (23000): Column 'Snum' in field list is ambiguous
+mysql> select distinct Snum,Onum from salespeople,orders order by Onum;
+ERROR 1052 (23000): Column 'Snum' in field list is ambiguous
+mysql> select distinct Snum,Onum from salespeople order by Onum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'field list'
+mysql> select distinct Snum,Snum from salespeople order by Onum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'order clause'
+mysql> select distinct Snum,Onum from salespeople order by Snum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'field list'
+mysql> select distinct Snum,Onum from salespeople order by Snum;
+ERROR 1054 (42S22): Unknown column 'Onum' in 'field list'
+mysql> select distinct snum,onum from salespeople order by snum;
+ERROR 1054 (42S22): Unknown column 'onum' in 'field list'
+mysql> select distinct Snum,Snum from salespeople order by Snum;
++------+------+
+| Snum | Snum |
++------+------+
+| 1001 | 1001 |
+| 1002 | 1002 |
+| 1003 | 1003 |
+| 1004 | 1004 |
+| 1007 | 1007 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct Snum,Snum from salespeople order by orders;
+ERROR 1054 (42S22): Unknown column 'orders' in 'order clause'
+mysql> select distinct Snum,Snum from salespeople order by Snum;
++------+------+
+| Snum | Snum |
++------+------+
+| 1001 | 1001 |
+| 1002 | 1002 |
+| 1003 | 1003 |
+| 1004 | 1004 |
+| 1007 | 1007 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct snum from orders;
++------+
+| snum |
++------+
+| 1007 |
+| 1001 |
+| 1004 |
+| 1002 |
+| 1003 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct snum from orders order by snum;
++------+
+| snum |
++------+
+| 1001 |
+| 1002 |
+| 1003 |
+| 1004 |
+| 1007 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct Snum,Snum from salespeople,orders;
+ERROR 1052 (23000): Column 'Snum' in field list is ambiguous
+mysql> select distinct Snum from salespeople,orders;
+ERROR 1052 (23000): Column 'Snum' in field list is ambiguous
+mysql> select distinct Snum from salespeople,orders order by snum;
+ERROR 1052 (23000): Column 'Snum' in field list is ambiguous
+
+
+#ASSIGNMENT -05.
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.01 sec)
+
+mysql> select * from orders where amt>1000;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select Sname,City from salespeople where Comm>.10;
++--------+-----------+
+| Sname  | City      |
++--------+-----------+
+| Peel   | London    |
+| Serres | San Jose  |
+| Motika | London    |
+| Rifkin | Barcelona |
++--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Sname,City(london) from salespeople where Comm>.10;
+ERROR 1305 (42000): FUNCTION khargar.City does not exist
+mysql> select Sname,City='london' from salespeople where Comm>.10;
++--------+---------------+
+| Sname  | City='london' |
++--------+---------------+
+| Peel   |             1 |
+| Serres |             0 |
+| Motika |             1 |
+| Rifkin |             0 |
++--------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from orders where amyt>1000;
+ERROR 1054 (42S22): Unknown column 'amyt' in 'where clause'
+mysql> select * from orders where amt>1000;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select Sname, city from salespeople where city='London' and Comm>
+10;
+Empty set (0.00 sec)
+
+mysql> select Sname, city from salespeople where city='London' and Comm>.10;
++--------+--------+
+| Sname  | city   |
++--------+--------+
+| Peel   | London |
+| Motika | London |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers where rating <=1000 and city='Rome';
++------+----------+------+--------+------+
+| Cnum | Cname    | City | Rating | Snum |
++------+----------+------+--------+------+
+| 2002 | Giovanni | Rome |    200 | 1003 |
+| 2007 | Pereira  | Rome |    100 | 1004 |
++------+----------+------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from orders where (amt<1000 OR NOT(Odate='1990-10-03' an
+d cnum>2003));
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from orders where not((odate='1990-10-03' or snum>1006)
+and amt>=1500);
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from salespeople where (comm>.12 or comm<.14);
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+#ASSIGNMENT -06.
+
+mysql> select * from orders where odate='1990-10-03' or odate='1990-10-04';
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers where snum in(select snum from salespeople where sname='peel' or sname='motika');
++------+---------+--------+--------+------+
+| Cnum | Cname   | City   | Rating | Snum |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London |    100 | 1001 |
+| 2006 | Clemens | London |    100 | 1001 |
+| 2007 | Pereira | Rome   |    100 | 1004 |
++------+---------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customers where cname like 'a%' or cname like 'b%'or cname like 'C%'or cname like 'D%'or cname like 'E%'or cname like 'F%'o
+r cname like 'G%';
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customers where cname like 'c%';
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from orders where amt is not NULL;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-03 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql>
