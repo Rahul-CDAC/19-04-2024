@@ -1,0 +1,127 @@
+Microsoft Windows [Version 10.0.22631.3296]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Rahul>mysql -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 67
+Server version: 8.0.36 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select s.sname,t.sname from sales
+people s, salespeople t where s.city=t.city and s.sname<t.sname;
+ERROR 1046 (3D000): No database selected
+mysql> use khargar;
+Database changed
+mysql> select s.sname,t.sname from salespeoples, salespeople t where s.city=t.city and s.sname<t.sname;
++--------+-------+
+| sname  | sname |
++--------+-------+
+| Motika | Peel  |
++--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,t.sname,u.city fro
+m salespeople s, salespeople t where s.c
+ity=t.city and s.sname<t.sname;
+ERROR 1054 (42S22): Unknown column 'u.city' in'field list'
+mysql> select s.sname,t.sname,s.city from salespeople s, salespeople t where s.city=t.city and s.sname<t.sname;
++--------+-------+--------+
+| sname  | sname | city   |
++--------+-------+--------+
+| Motika | Peel  | London |
++--------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,t.sname,t.city from salespeople s, salespeople t where s.city=t.city and s.sname<t.sname;
++--------+-------+--------+
+| sname  | sname | city   |
++--------+-------+--------+
+| Motika | Peel  | London |
++--------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,t.sname,t.city ,s.commfrom salespeople s, salespeople t wh
+ere s.city=t.city and s.sname<t.sname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's, salespeople t where s.city=t.city and s.sname<t.sname' at line 1
+mysql> select s.sname,t.sname,t.city ,s.comm from salespeople s, salespeople t w
+here s.city=t.city and s.sname<t.sname group by comm;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'khargar.s.Sname' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select s.sname,t.sname,t.city ,s.comm from salespeople s, salespeople t where s.city=t.city and s.sname<t.sname group by s.comm;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'khargar.s.Sname' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> cl scr
+    -> ^C
+mysql> select s.sname,t.sname,t.city ,s.commfrom salespeople s, salespeople t where s.city=t.city and s.sname<t.sname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's, salespeople t where s.city=t.city and s.sname<t.sname' at line 1
+mysql> select s.sname,t.sname from salespeoples, salespeople t where s.city=t.city and s.sname<t.sname;
++--------+-------+
+| sname  | sname |
++--------+-------+
+| Motika | Peel  |
++--------+-------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,t.sname,s.city from salespeople s, salespeople t where s.city=t.city and s.sname<t.sname;
++--------+-------+--------+
+| sname  | sname | city   |
++--------+-------+--------+
+| Motika | Peel  | London |
++--------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select c.name, c.city from custom
+ers c where rating=(select rating from customers where rating='hoffman');
+ERROR 1054 (42S22): Unknown column 'c.name' in'field list'
+mysql> select cname, city from customers whererating=(select rating from customers where rating='hoffman');
+Empty set, 1 warning (0.00 sec)
+
+mysql> select cname, city from customers whererating=(select rating from customers where cname='hoffman');
++---------+--------+
+| cname   | city   |
++---------+--------+
+| Hoffman | London |
+| Clemens | London |
+| Pereira | Rome   |
++---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select onum "all orders " ,cnum from orders cnum=(select cnum from customers where cname='cisneros');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=(select cnum from customers where cname='cisneros')' at line 1
+mysql> select onum "all orders " ,cnum from orders cnum=(select cnum from customers where cname='cisneros');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=(select cnum from customers where cname='cisneros')' at line 1
+mysql> select onum "all orders " ,snum from orders where snum=(select snum from customers where cname='cisneros');
++-------------+------+
+| all orders  | snum |
++-------------+------+
+|        3001 | 1007 |
+|        3006 | 1007 |
++-------------+------+
+2 rows in set (0.01 sec)
+
+mysql> select cname,rating from customer
+s where cnum in(select cnum from orders where amt>(select avg(amt) from orders))
+;
++---------+--------+
+| cname   | rating |
++---------+--------+
+| Liu     |    200 |
+| Clemens |    100 |
++---------+--------+
+2 rows in set (0.01 sec)
+
+mysql> select avg(amt) from orders;
++-------------+
+| avg(amt)    |
++-------------+
+| 2665.840002 |
++-------------+
+1 row in set (0.00 sec)
+
+
